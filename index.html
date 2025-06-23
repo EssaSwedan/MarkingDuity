@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Marking Duty Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Save Controls -->
+        <div class="save-controls">
+            <button id="saveBtn" onclick="saveData()">💾 Save Changes</button>
+            <!-- <button id="loadBtn" onclick="loadData()">📁 Load Latest</button>-->
+            <div id="saveStatus" class="save-status"></div>
+        </div>
+
+        <!-- Exam Schedule Section -->
+        <section class="exam-schedule">
+            <h2>CS EoY Exam Schedule</h2>
+            <div class="schedule-grid">
+                <div class="schedule-item">
+                    <div class="date">Monday 23/6/2025</div>
+                    <div class="grade">Grade 10 & 11</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="date">Thursday 26/06/2025</div>
+                    <div class="grade">Grade 09 & 12</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marking Duty Counter Section -->
+        <section class="marking-counter">
+            <h2>The Marking Duty Counter</h2>
+            <table class="counter-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th colspan="2">MCQ</th>
+                        <th colspan="2">FRQ</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr class="sub-header">
+                        <th></th>
+                        <th>Marker</th>
+                        <th>Reviewer</th>
+                        <th>Marker</th>
+                        <th>Reviewer</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="counterTableBody">
+                    <!-- Counter rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Marking Duty Assignment Section -->
+        <section class="marking-assignment">
+            <h2>CS Mid-Term 2 Exam Marking Duty AY 24-25</h2>
+            <div class="table-container">
+                <table class="assignment-table">
+                    <thead>
+                        <tr>
+                            <th>Grade</th>
+                            <th colspan="2">MCQ</th>
+                            <th colspan="2">FRQ</th>
+                            <th colspan="3">Mark Registry</th>
+                            <th>5 Samples<br>Marking Check</th>
+                            <th>Mark Reg.<br>Final Check</th>
+                        </tr>
+                        <tr class="sub-header">
+                            <th></th>
+                            <th>Marker</th>
+                            <th>Reviewer</th>
+                            <th>Marker</th>
+                            <th>Reviewer</th>
+                            <th>Excel</th>
+                            <th>Portal</th>
+                            <th>NSIS</th>
+                            <th>HOD</th>
+                            <th>HOD</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assignmentTableBody">
+                        <!-- Assignment rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
