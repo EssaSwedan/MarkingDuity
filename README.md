@@ -24,18 +24,27 @@ A web-based application for managing Computer Science exam schedules and marking
 - Checkbox tracking for Mark Registry completion (Excel, Portal, NSIS)
 - Separate columns for different types of marking duties
 
-### 💾 **Save Functionality**
-- **Save Changes** button to persist all data
-- Automatic data loading on page refresh
-- All form states maintained including checkboxes
-- Real-time status updates with color-coded feedback
+### 💾 **Real-Time Synchronization**
+- ⚡ **Instant checkbox sync** - Changes appear immediately on all devices worldwide
+- 🌍 **Global real-time updates** - Works anywhere with internet connection
+- 🔄 **Automatic sync** - No need to manually save or refresh
+- 👥 **Multi-user support** - See who made changes and when
+- 📱 **Cross-device sync** - Desktop, tablet, phone - all stay in sync
+- 🛡️ **Offline fallback** - Works with localStorage when offline
 
 ## 🚀 Quick Start
 
+### Option 1: Real-Time Sync (Recommended)
+1. **Follow the [Firebase Setup Guide](FIREBASE_SETUP.md)** to enable real-time synchronization
+2. **Visit your live demo**: [https://yourusername.github.io/MarkingDuity](https://yourusername.github.io/MarkingDuity)
+3. **Make changes** - they appear instantly on all devices worldwide! ⚡
+4. **Test it**: Open in multiple browser tabs and watch changes sync in real-time
+
+### Option 2: Local Storage Only
 1. **Visit the live demo**: [https://yourusername.github.io/MarkingDuity](https://yourusername.github.io/MarkingDuity)
 2. **Make changes** to any dropdowns, numbers, or checkboxes
-3. **Click "💾 Save Changes"** to save your work
-4. **Refresh the page** - all changes will be maintained
+3. **Click "💾 Save Changes"** to save your work locally
+4. **Data persists** on your device between sessions
 
 ## 🛠️ Local Development
 

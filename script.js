@@ -79,6 +79,7 @@ function renderCounterTable() {
         const nameDropdown = createDropdown(teachers, teacher.name, (e) => {
             counterData[index].name = e.target.value;
             updateCounterTotals();
+            debounceAutoSave();
         });
         nameCell.appendChild(nameDropdown);
         row.appendChild(nameCell);
@@ -88,6 +89,7 @@ function renderCounterTable() {
         const mcqMarkerInput = createNumberInput(teacher.mcqMarker, (e) => {
             counterData[index].mcqMarker = parseInt(e.target.value) || 0;
             updateCounterTotals();
+            debounceAutoSave();
         });
         mcqMarkerCell.appendChild(mcqMarkerInput);
         row.appendChild(mcqMarkerCell);
@@ -97,6 +99,7 @@ function renderCounterTable() {
         const mcqReviewerInput = createNumberInput(teacher.mcqReviewer, (e) => {
             counterData[index].mcqReviewer = parseInt(e.target.value) || 0;
             updateCounterTotals();
+            debounceAutoSave();
         });
         mcqReviewerCell.appendChild(mcqReviewerInput);
         row.appendChild(mcqReviewerCell);
@@ -111,6 +114,7 @@ function renderCounterTable() {
             const frqMarkerInput = createNumberInput(teacher.frqMarker, (e) => {
                 counterData[index].frqMarker = parseInt(e.target.value) || 0;
                 updateCounterTotals();
+                debounceAutoSave();
             });
             frqMarkerCell.appendChild(frqMarkerInput);
         }
@@ -126,6 +130,7 @@ function renderCounterTable() {
             const frqReviewerInput = createNumberInput(teacher.frqReviewer, (e) => {
                 counterData[index].frqReviewer = parseInt(e.target.value) || 0;
                 updateCounterTotals();
+                debounceAutoSave();
             });
             frqReviewerCell.appendChild(frqReviewerInput);
         }
@@ -180,6 +185,7 @@ function renderAssignmentTable() {
         const mcqMarkerCell = document.createElement('td');
         const mcqMarkerDropdown = createDropdown(teachers, assignment.mcqMarker, (e) => {
             assignmentData[index].mcqMarker = e.target.value;
+            debounceAutoSave();
         });
         mcqMarkerCell.appendChild(mcqMarkerDropdown);
         row.appendChild(mcqMarkerCell);
@@ -188,6 +194,7 @@ function renderAssignmentTable() {
         const mcqReviewerCell = document.createElement('td');
         const mcqReviewerDropdown = createDropdown(teachers, assignment.mcqReviewer, (e) => {
             assignmentData[index].mcqReviewer = e.target.value;
+            debounceAutoSave();
         });
         mcqReviewerCell.appendChild(mcqReviewerDropdown);
         row.appendChild(mcqReviewerCell);
@@ -196,6 +203,7 @@ function renderAssignmentTable() {
         const frqMarkerCell = document.createElement('td');
         const frqMarkerDropdown = createDropdown(teachers, assignment.frqMarker, (e) => {
             assignmentData[index].frqMarker = e.target.value;
+            debounceAutoSave();
         });
         frqMarkerCell.appendChild(frqMarkerDropdown);
         row.appendChild(frqMarkerCell);
@@ -204,6 +212,7 @@ function renderAssignmentTable() {
         const frqReviewerCell = document.createElement('td');
         const frqReviewerDropdown = createDropdown(teachers, assignment.frqReviewer, (e) => {
             assignmentData[index].frqReviewer = e.target.value;
+            debounceAutoSave();
         });
         frqReviewerCell.appendChild(frqReviewerDropdown);
         row.appendChild(frqReviewerCell);
@@ -215,6 +224,8 @@ function renderAssignmentTable() {
         excelCheckbox.checked = assignment.excel || false;
         excelCheckbox.addEventListener('change', (e) => {
             assignmentData[index].excel = e.target.checked;
+            // Auto-save for real-time sync
+            debounceAutoSave();
         });
         excelCell.appendChild(excelCheckbox);
         row.appendChild(excelCell);
@@ -226,6 +237,8 @@ function renderAssignmentTable() {
         portalCheckbox.checked = assignment.portal || false;
         portalCheckbox.addEventListener('change', (e) => {
             assignmentData[index].portal = e.target.checked;
+            // Auto-save for real-time sync
+            debounceAutoSave();
         });
         portalCell.appendChild(portalCheckbox);
         row.appendChild(portalCell);
@@ -237,6 +250,8 @@ function renderAssignmentTable() {
         nsisCheckbox.checked = assignment.nsis || false;
         nsisCheckbox.addEventListener('change', (e) => {
             assignmentData[index].nsis = e.target.checked;
+            // Auto-save for real-time sync
+            debounceAutoSave();
         });
         nsisCell.appendChild(nsisCheckbox);
         row.appendChild(nsisCell);
@@ -246,6 +261,7 @@ function renderAssignmentTable() {
         samplesCell.className = 'samples-column';
         const samplesDropdown = createDropdown(teachers, assignment.samplesCheck, (e) => {
             assignmentData[index].samplesCheck = e.target.value;
+            debounceAutoSave();
         });
         samplesCell.appendChild(samplesDropdown);
         row.appendChild(samplesCell);
@@ -255,6 +271,7 @@ function renderAssignmentTable() {
         finalCell.className = 'hod-column';
         const finalDropdown = createDropdown(teachers, assignment.finalCheck, (e) => {
             assignmentData[index].finalCheck = e.target.value;
+            debounceAutoSave();
         });
         finalCell.appendChild(finalDropdown);
         row.appendChild(finalCell);
@@ -361,7 +378,11 @@ function importData(event) {
     }
 }
 
-// Save and Load functionality for multi-user sharing
+// Real-time synchronization variables
+let isUpdatingFromFirebase = false;
+let lastUpdateTime = Date.now();
+
+// Save data to Firebase (real-time sync for all users)
 function saveData() {
     const saveBtn = document.getElementById('saveBtn');
     const statusDiv = document.getElementById('saveStatus');
@@ -373,78 +394,178 @@ function saveData() {
     const dataToSave = {
         counterData: counterData,
         assignmentData: assignmentData,
-        timestamp: new Date().toISOString(),
-        lastModifiedBy: 'User', // In real implementation, this would be the actual user name
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        lastModifiedBy: getUserId(),
         version: Date.now()
     };
     
-    try {
-        // For demonstration: Save to localStorage
-        // In real implementation, this would be an API call to save to database
-        localStorage.setItem('markingDutyData', JSON.stringify(dataToSave));
-        
-        // Simulate server call delay
-        setTimeout(() => {
+    // Save to Firebase (this will trigger real-time updates to all users)
+    dataRef.set(dataToSave)
+        .then(() => {
             saveBtn.disabled = false;
             saveBtn.textContent = '💾 Save Changes';
+            showStatus('Changes saved and synced to all users! ✅', 'success');
+            lastUpdateTime = Date.now();
+        })
+        .catch((error) => {
+            saveBtn.disabled = false;
+            saveBtn.textContent = '💾 Save Changes';
+            showStatus('Error saving data: ' + error.message, 'error');
+            console.error('Firebase save error:', error);
             
-            showStatus('Changes saved successfully! ✅', 'success');
-            
-            // Auto-refresh other users' data (simulate real-time updates)
-            // In real implementation, this would be handled by websockets or polling
-            broadcastUpdate();
-        }, 500);
+            // Fallback to localStorage if Firebase fails
+            try {
+                localStorage.setItem('markingDutyData', JSON.stringify(dataToSave));
+                showStatus('Saved locally (offline mode)', 'info');
+            } catch (localError) {
+                showStatus('Failed to save: ' + localError.message, 'error');
+            }
+        });
+}
+
+// Auto-save function for real-time updates
+function autoSave() {
+    if (!isUpdatingFromFirebase) {
+        showStatus('🔄 Syncing...', 'syncing');
         
-    } catch (error) {
-        saveBtn.disabled = false;
-        saveBtn.textContent = '💾 Save Changes';
-        showStatus('Error saving data: ' + error.message, 'error');
+        const dataToSave = {
+            counterData: counterData,
+            assignmentData: assignmentData,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            lastModifiedBy: getUserId(),
+            version: Date.now()
+        };
+        
+        // Save to Firebase without UI feedback (silent save)
+        dataRef.set(dataToSave)
+            .then(() => {
+                showStatus('✅ Synced to all users', 'success');
+            })
+            .catch((error) => {
+                console.warn('Auto-save failed:', error);
+                showStatus('⚠️ Sync failed - saved locally', 'error');
+                // Fallback to localStorage
+                try {
+                    localStorage.setItem('markingDutyData', JSON.stringify(dataToSave));
+                } catch (localError) {
+                    console.error('Fallback save failed:', localError);
+                }
+            });
     }
 }
 
+// Load data from Firebase
 function loadData() {
-    const loadBtn = document.getElementById('loadBtn');
+    showStatus('Loading latest data...', 'info');
     
-    loadBtn.disabled = true;
-    loadBtn.textContent = '📁 Loading...';
-    
-    try {
-        // For demonstration: Load from localStorage
-        // In real implementation, this would be an API call to load from database
-        const savedData = localStorage.getItem('markingDutyData');
-        
-        if (savedData) {
-            const data = JSON.parse(savedData);
+    dataRef.once('value')
+        .then((snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                isUpdatingFromFirebase = true;
+                
+                // Update local data
+                counterData = data.counterData || counterData;
+                assignmentData = data.assignmentData || assignmentData;
+                
+                // Ensure backward compatibility
+                assignmentData.forEach(assignment => {
+                    if (assignment.excel === undefined) assignment.excel = false;
+                    if (assignment.portal === undefined) assignment.portal = false;
+                    if (assignment.nsis === undefined) assignment.nsis = false;
+                });
+                
+                // Re-render tables
+                renderCounterTable();
+                renderAssignmentTable();
+                
+                const lastModified = data.timestamp ? new Date(data.timestamp).toLocaleString() : 'Unknown';
+                const modifiedBy = data.lastModifiedBy || 'Unknown user';
+                showStatus(`Data loaded! Last modified: ${lastModified} by ${modifiedBy}`, 'success');
+                
+                setTimeout(() => {
+                    isUpdatingFromFirebase = false;
+                }, 1000);
+            } else {
+                showStatus('No data found in database', 'info');
+                isUpdatingFromFirebase = false;
+            }
+        })
+        .catch((error) => {
+            showStatus('Error loading data: ' + error.message, 'error');
+            console.error('Firebase load error:', error);
             
-            // Update local data
-            counterData = data.counterData || counterData;
-            assignmentData = data.assignmentData || assignmentData;
-            
-            // Ensure backward compatibility - add missing checkbox properties
-            assignmentData.forEach(assignment => {
-                if (assignment.excel === undefined) assignment.excel = false;
-                if (assignment.portal === undefined) assignment.portal = false;
-                if (assignment.nsis === undefined) assignment.nsis = false;
-            });
-            
-            // Re-render tables
-            renderCounterTable();
-            renderAssignmentTable();
-            
-            const lastModified = new Date(data.timestamp).toLocaleString();
-            showStatus(`Data loaded! Last modified: ${lastModified}`, 'success');
-        } else {
-            showStatus('No saved data found', 'info');
+            // Fallback to localStorage
+            try {
+                const savedData = localStorage.getItem('markingDutyData');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    counterData = data.counterData || counterData;
+                    assignmentData = data.assignmentData || assignmentData;
+                    renderCounterTable();
+                    renderAssignmentTable();
+                    showStatus('Loaded from local storage (offline mode)', 'info');
+                }
+            } catch (localError) {
+                showStatus('Failed to load any data', 'error');
+            }
+            isUpdatingFromFirebase = false;
+        });
+}
+
+// Listen for real-time updates from Firebase
+function setupRealTimeListener() {
+    dataRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data && !isUpdatingFromFirebase) {
+            // Only update if the data is newer than our last update
+            const serverTime = data.timestamp || 0;
+            if (serverTime > lastUpdateTime) {
+                isUpdatingFromFirebase = true;
+                
+                console.log('Received real-time update from Firebase');
+                
+                // Update local data
+                counterData = data.counterData || counterData;
+                assignmentData = data.assignmentData || assignmentData;
+                
+                // Ensure backward compatibility
+                assignmentData.forEach(assignment => {
+                    if (assignment.excel === undefined) assignment.excel = false;
+                    if (assignment.portal === undefined) assignment.portal = false;
+                    if (assignment.nsis === undefined) assignment.nsis = false;
+                });
+                
+                // Re-render tables
+                renderCounterTable();
+                renderAssignmentTable();
+                
+                const modifiedBy = data.lastModifiedBy || 'Another user';
+                if (modifiedBy !== getUserId()) {
+                    showStatus(`🔄 Updated by ${modifiedBy}`, 'info');
+                }
+                
+                lastUpdateTime = serverTime;
+                
+                setTimeout(() => {
+                    isUpdatingFromFirebase = false;
+                }, 1000);
+            }
         }
-        
-    } catch (error) {
-        showStatus('Error loading data: ' + error.message, 'error');
-    } finally {
-        setTimeout(() => {
-            loadBtn.disabled = false;
-            loadBtn.textContent = '📁 Load Latest';
-        }, 500);
+    }, (error) => {
+        console.error('Firebase listener error:', error);
+        showStatus('Real-time sync disconnected. Changes may not sync.', 'error');
+    });
+}
+
+// Generate or get user ID
+function getUserId() {
+    let userId = localStorage.getItem('markingDutyUserId');
+    if (!userId) {
+        userId = 'User_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+        localStorage.setItem('markingDutyUserId', userId);
     }
+    return userId;
 }
 
 function showStatus(message, type) {
@@ -459,40 +580,49 @@ function showStatus(message, type) {
     }, 5000);
 }
 
-// Simulate broadcasting updates to other users
-function broadcastUpdate() {
-    // In real implementation, this would use WebSockets, Server-Sent Events, or polling
-    // to notify other users of changes
-    console.log('Broadcasting update to other users...');
-    
-    // Simulate receiving updates from other users
-    // This would be handled by the server in a real implementation
-}
-
 // Auto-load data when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Load saved data if available
-    setTimeout(() => {
-        const savedData = localStorage.getItem('markingDutyData');
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            counterData = data.counterData || counterData;
-            assignmentData = data.assignmentData || assignmentData;
-            
-            // Ensure backward compatibility - add missing checkbox properties
-            assignmentData.forEach(assignment => {
-                if (assignment.excel === undefined) assignment.excel = false;
-                if (assignment.portal === undefined) assignment.portal = false;
-                if (assignment.nsis === undefined) assignment.nsis = false;
-            });
-        }
-        renderCounterTable();
-        renderAssignmentTable();
+    // Initialize Firebase listener first
+    if (typeof firebase !== 'undefined' && firebase.database) {
+        setupRealTimeListener();
+        showStatus('🔄 Connecting to real-time sync...', 'info');
         
-        // Show initial status
-        showStatus('Page loaded. Ready to use!', 'info');
-    }, 100);
+        // Load initial data from Firebase
+        loadData();
+    } else {
+        // Fallback to localStorage if Firebase is not available
+        console.warn('Firebase not available, using localStorage fallback');
+        setTimeout(() => {
+            const savedData = localStorage.getItem('markingDutyData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                counterData = data.counterData || counterData;
+                assignmentData = data.assignmentData || assignmentData;
+                
+                // Ensure backward compatibility
+                assignmentData.forEach(assignment => {
+                    if (assignment.excel === undefined) assignment.excel = false;
+                    if (assignment.portal === undefined) assignment.portal = false;
+                    if (assignment.nsis === undefined) assignment.nsis = false;
+                });
+            }
+            renderCounterTable();
+            renderAssignmentTable();
+            showStatus('Loaded from local storage (offline mode)', 'info');
+        }, 100);
+    }
 });
+
+// Debounce function for auto-save (prevents too many saves)
+let autoSaveTimeout;
+function debounceAutoSave() {
+    clearTimeout(autoSaveTimeout);
+    autoSaveTimeout = setTimeout(() => {
+        if (typeof firebase !== 'undefined' && firebase.database) {
+            autoSave();
+        }
+    }, 1000); // Wait 1 second after last change before auto-saving
+}
 
 // Periodic check for updates (simulate real-time updates)
 setInterval(() => {
