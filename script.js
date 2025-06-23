@@ -14,17 +14,17 @@ let counterData = [
 
 // Initial assignment data
 let assignmentData = [
-    { grade: '9A', mcqMarker: 'Essa', mcqReviewer: 'Anas', frqMarker: 'Khaled', frqReviewer: 'Hamza', excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '9B', mcqMarker: 'Essa', mcqReviewer: 'Roy', frqMarker: 'Hamza', frqReviewer: 'Khaled', excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '9C', mcqMarker: 'Anas', mcqReviewer: 'Roy', frqMarker: 'Hamza', frqReviewer: 'Khaled', excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '9D', mcqMarker: 'Roy', mcqReviewer: 'Essa', frqMarker: 'Hamza', frqReviewer: 'Khaled', excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '10A', mcqMarker: 'Roy', mcqReviewer: 'Khaled', frqMarker: 'Anas', frqReviewer: 'Amdad', excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
-    { grade: '10B', mcqMarker: 'Roy', mcqReviewer: 'Essa', frqMarker: 'Anas', frqReviewer: 'Amdad', excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
-    { grade: '10C', mcqMarker: 'Hamza', mcqReviewer: 'Roy', frqMarker: 'Amdad', frqReviewer: 'Anas', excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
-    { grade: '10D', mcqMarker: 'Essa', mcqReviewer: 'Hamza', frqMarker: 'Amdad', frqReviewer: 'Anas', excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
-    { grade: '11A', mcqMarker: 'Hamza', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Roy', excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '11B', mcqMarker: 'Hamza', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Anas', excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '11C', mcqMarker: 'Amdad', mcqReviewer: 'Anas', frqMarker: 'Roy', frqReviewer: 'Khaled', excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' }
+    { grade: '9A', mcqMarker: 'Essa', mcqReviewer: 'Anas', frqMarker: 'Khaled', frqReviewer: 'Hamza', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '9B', mcqMarker: 'Essa', mcqReviewer: 'Roy', frqMarker: 'Hamza', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '9C', mcqMarker: 'Anas', mcqReviewer: 'Roy', frqMarker: 'Hamza', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '9D', mcqMarker: 'Roy', mcqReviewer: 'Essa', frqMarker: 'Hamza', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '10A', mcqMarker: 'Roy', mcqReviewer: 'Khaled', frqMarker: 'Anas', frqReviewer: 'Amdad', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
+    { grade: '10B', mcqMarker: 'Roy', mcqReviewer: 'Essa', frqMarker: 'Anas', frqReviewer: 'Amdad', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
+    { grade: '10C', mcqMarker: 'Hamza', mcqReviewer: 'Roy', frqMarker: 'Amdad', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
+    { grade: '10D', mcqMarker: 'Essa', mcqReviewer: 'Hamza', frqMarker: 'Amdad', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
+    { grade: '11A', mcqMarker: 'Hamza', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Roy', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '11B', mcqMarker: 'Hamza', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '11C', mcqMarker: 'Amdad', mcqReviewer: 'Anas', frqMarker: 'Roy', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' }
 ];
 
 // Initialize the page
@@ -190,6 +190,18 @@ function renderAssignmentTable() {
         mcqMarkerCell.appendChild(mcqMarkerDropdown);
         row.appendChild(mcqMarkerCell);
         
+        // MCQ Marker Done Checkbox
+        const mcqMarkerDoneCell = document.createElement('td');
+        const mcqMarkerDoneCheckbox = document.createElement('input');
+        mcqMarkerDoneCheckbox.type = 'checkbox';
+        mcqMarkerDoneCheckbox.checked = assignment.mcqMarkerDone || false;
+        mcqMarkerDoneCheckbox.addEventListener('change', (e) => {
+            assignmentData[index].mcqMarkerDone = e.target.checked;
+            debounceAutoSave();
+        });
+        mcqMarkerDoneCell.appendChild(mcqMarkerDoneCheckbox);
+        row.appendChild(mcqMarkerDoneCell);
+        
         // MCQ Reviewer
         const mcqReviewerCell = document.createElement('td');
         const mcqReviewerDropdown = createDropdown(teachers, assignment.mcqReviewer, (e) => {
@@ -198,6 +210,18 @@ function renderAssignmentTable() {
         });
         mcqReviewerCell.appendChild(mcqReviewerDropdown);
         row.appendChild(mcqReviewerCell);
+        
+        // MCQ Reviewer Done Checkbox
+        const mcqReviewerDoneCell = document.createElement('td');
+        const mcqReviewerDoneCheckbox = document.createElement('input');
+        mcqReviewerDoneCheckbox.type = 'checkbox';
+        mcqReviewerDoneCheckbox.checked = assignment.mcqReviewerDone || false;
+        mcqReviewerDoneCheckbox.addEventListener('change', (e) => {
+            assignmentData[index].mcqReviewerDone = e.target.checked;
+            debounceAutoSave();
+        });
+        mcqReviewerDoneCell.appendChild(mcqReviewerDoneCheckbox);
+        row.appendChild(mcqReviewerDoneCell);
         
         // FRQ Marker
         const frqMarkerCell = document.createElement('td');
@@ -208,6 +232,18 @@ function renderAssignmentTable() {
         frqMarkerCell.appendChild(frqMarkerDropdown);
         row.appendChild(frqMarkerCell);
         
+        // FRQ Marker Done Checkbox
+        const frqMarkerDoneCell = document.createElement('td');
+        const frqMarkerDoneCheckbox = document.createElement('input');
+        frqMarkerDoneCheckbox.type = 'checkbox';
+        frqMarkerDoneCheckbox.checked = assignment.frqMarkerDone || false;
+        frqMarkerDoneCheckbox.addEventListener('change', (e) => {
+            assignmentData[index].frqMarkerDone = e.target.checked;
+            debounceAutoSave();
+        });
+        frqMarkerDoneCell.appendChild(frqMarkerDoneCheckbox);
+        row.appendChild(frqMarkerDoneCell);
+        
         // FRQ Reviewer
         const frqReviewerCell = document.createElement('td');
         const frqReviewerDropdown = createDropdown(teachers, assignment.frqReviewer, (e) => {
@@ -216,6 +252,18 @@ function renderAssignmentTable() {
         });
         frqReviewerCell.appendChild(frqReviewerDropdown);
         row.appendChild(frqReviewerCell);
+        
+        // FRQ Reviewer Done Checkbox
+        const frqReviewerDoneCell = document.createElement('td');
+        const frqReviewerDoneCheckbox = document.createElement('input');
+        frqReviewerDoneCheckbox.type = 'checkbox';
+        frqReviewerDoneCheckbox.checked = assignment.frqReviewerDone || false;
+        frqReviewerDoneCheckbox.addEventListener('change', (e) => {
+            assignmentData[index].frqReviewerDone = e.target.checked;
+            debounceAutoSave();
+        });
+        frqReviewerDoneCell.appendChild(frqReviewerDoneCheckbox);
+        row.appendChild(frqReviewerDoneCell);
         
         // Mark Registry - Excel checkbox
         const excelCell = document.createElement('td');
@@ -483,6 +531,10 @@ function loadData() {
                     if (assignment.excel === undefined) assignment.excel = false;
                     if (assignment.portal === undefined) assignment.portal = false;
                     if (assignment.nsis === undefined) assignment.nsis = false;
+                    if (assignment.mcqMarkerDone === undefined) assignment.mcqMarkerDone = false;
+                    if (assignment.mcqReviewerDone === undefined) assignment.mcqReviewerDone = false;
+                    if (assignment.frqMarkerDone === undefined) assignment.frqMarkerDone = false;
+                    if (assignment.frqReviewerDone === undefined) assignment.frqReviewerDone = false;
                 });
                 
                 // Re-render tables
@@ -528,6 +580,10 @@ function loadData() {
                         if (assignment.excel === undefined) assignment.excel = false;
                         if (assignment.portal === undefined) assignment.portal = false;
                         if (assignment.nsis === undefined) assignment.nsis = false;
+                        if (assignment.mcqMarkerDone === undefined) assignment.mcqMarkerDone = false;
+                        if (assignment.mcqReviewerDone === undefined) assignment.mcqReviewerDone = false;
+                        if (assignment.frqMarkerDone === undefined) assignment.frqMarkerDone = false;
+                        if (assignment.frqReviewerDone === undefined) assignment.frqReviewerDone = false;
                     });
                     
                     renderCounterTable();
@@ -576,6 +632,10 @@ function setupRealTimeListener() {
                         if (assignment.excel === undefined) assignment.excel = false;
                         if (assignment.portal === undefined) assignment.portal = false;
                         if (assignment.nsis === undefined) assignment.nsis = false;
+                        if (assignment.mcqMarkerDone === undefined) assignment.mcqMarkerDone = false;
+                        if (assignment.mcqReviewerDone === undefined) assignment.mcqReviewerDone = false;
+                        if (assignment.frqMarkerDone === undefined) assignment.frqMarkerDone = false;
+                        if (assignment.frqReviewerDone === undefined) assignment.frqReviewerDone = false;
                     });
                     
                     // Re-render tables
@@ -719,6 +779,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (assignment.excel === undefined) assignment.excel = false;
                     if (assignment.portal === undefined) assignment.portal = false;
                     if (assignment.nsis === undefined) assignment.nsis = false;
+                    if (assignment.mcqMarkerDone === undefined) assignment.mcqMarkerDone = false;
+                    if (assignment.mcqReviewerDone === undefined) assignment.mcqReviewerDone = false;
+                    if (assignment.frqMarkerDone === undefined) assignment.frqMarkerDone = false;
+                    if (assignment.frqReviewerDone === undefined) assignment.frqReviewerDone = false;
                 });
             }
             renderCounterTable();
