@@ -14,9 +14,19 @@ To enable real-time synchronization of checkbox changes for all users worldwide,
 
 1. **In your Firebase project**, click "Realtime Database" in the left sidebar
 2. **Click "Create Database"**
-3. **Choose location**: Select closest to your users
-4. **Security rules**: Start in **test mode** (allows read/write for 30 days)
+3. **Choose location**: Select closest to your users (you chose asia-southeast1)
+4. **Security rules**: Start in **test mode** with these rules:
+   ```json
+   {
+     "rules": {
+       ".read": true,
+       ".write": true
+     }
+   }
+   ```
 5. **Click "Done"**
+
+⚠️ **Important**: These rules allow anyone to read/write. You can make them more restrictive later.
 
 ## Step 3: Get Configuration
 

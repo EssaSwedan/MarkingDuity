@@ -1,7 +1,5 @@
 // Firebase Configuration
-// Replace these values with your actual Firebase project configuration
-import { initializeApp } from "firebase/app";
-
+// Firebase v8 (legacy) syntax - compatible with script tags in HTML
 const firebaseConfig = {
   apiKey: "AIzaSyDq0p0chz0uMh5jqNX7SM0daWxLbYZ1lgI",
   authDomain: "cs-marking-duty.firebaseapp.com",
@@ -12,11 +10,12 @@ const firebaseConfig = {
   appId: "1:177254184452:web:5a36ad753c7e867ef9a751"
 };
 
-// Initialize Firebase
+// Initialize Firebase (v8 legacy syntax)
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const app = initializeApp(firebaseConfig);
+
 // Database reference for the marking duty data
 const dataRef = database.ref('markingDutyData');
 
 console.log('Firebase initialized successfully');
+console.log('Database URL:', firebaseConfig.databaseURL);

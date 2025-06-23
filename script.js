@@ -456,12 +456,22 @@ function autoSave() {
 
 // Load data from Firebase
 function loadData() {
+    console.log('Loading data from Firebase...');
     showStatus('Loading latest data...', 'info');
+    
+    if (!dataRef) {
+        console.error('Firebase dataRef not available');
+        showStatus('❌ Firebase connection not available', 'error');
+        return;
+    }
     
     dataRef.once('value')
         .then((snapshot) => {
+            console.log('Firebase data loaded, exists:', snapshot.exists());
+            
             const data = snapshot.val();
             if (data) {
+                console.log('Processing loaded data:', data);
                 isUpdatingFromFirebase = true;
                 
                 // Update local data
@@ -481,19 +491,29 @@ function loadData() {
                 
                 const lastModified = data.timestamp ? new Date(data.timestamp).toLocaleString() : 'Unknown';
                 const modifiedBy = data.lastModifiedBy || 'Unknown user';
-                showStatus(`Data loaded! Last modified: ${lastModified} by ${modifiedBy}`, 'success');
+                showStatus(`✅ Data loaded! Last modified: ${lastModified} by ${modifiedBy}`, 'success');
+                
+                lastUpdateTime = data.timestamp || Date.now();
                 
                 setTimeout(() => {
                     isUpdatingFromFirebase = false;
                 }, 1000);
             } else {
-                showStatus('No data found in database', 'info');
-                isUpdatingFromFirebase = false;
+                console.log('No data found in Firebase, using local data');
+                renderCounterTable();
+                renderAssignmentTable();
+                showStatus('No data in database - initialized with defaults', 'info');
+                
+                // Save current data to Firebase
+                if (counterData.length > 0 || assignmentData.length > 0) {
+                    console.log('Saving initial data to Firebase...');
+                    autoSave();
+                }
             }
         })
         .catch((error) => {
-            showStatus('Error loading data: ' + error.message, 'error');
             console.error('Firebase load error:', error);
+            showStatus('❌ Error loading data: ' + error.message, 'error');
             
             // Fallback to localStorage
             try {
@@ -502,12 +522,27 @@ function loadData() {
                     const data = JSON.parse(savedData);
                     counterData = data.counterData || counterData;
                     assignmentData = data.assignmentData || assignmentData;
+                    
+                    // Ensure backward compatibility
+                    assignmentData.forEach(assignment => {
+                        if (assignment.excel === undefined) assignment.excel = false;
+                        if (assignment.portal === undefined) assignment.portal = false;
+                        if (assignment.nsis === undefined) assignment.nsis = false;
+                    });
+                    
                     renderCounterTable();
                     renderAssignmentTable();
                     showStatus('Loaded from local storage (offline mode)', 'info');
+                } else {
+                    renderCounterTable();
+                    renderAssignmentTable();
+                    showStatus('Using default data (no saved data found)', 'info');
                 }
             } catch (localError) {
-                showStatus('Failed to load any data', 'error');
+                console.error('Local storage fallback failed:', localError);
+                renderCounterTable();
+                renderAssignmentTable();
+                showStatus('Using default data (fallback failed)', 'error');
             }
             isUpdatingFromFirebase = false;
         });
@@ -515,47 +550,69 @@ function loadData() {
 
 // Listen for real-time updates from Firebase
 function setupRealTimeListener() {
-    dataRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data && !isUpdatingFromFirebase) {
-            // Only update if the data is newer than our last update
-            const serverTime = data.timestamp || 0;
-            if (serverTime > lastUpdateTime) {
-                isUpdatingFromFirebase = true;
+    console.log('Setting up Firebase real-time listener...');
+    
+    try {
+        dataRef.on('value', (snapshot) => {
+            console.log('Firebase data received:', snapshot.exists());
+            
+            const data = snapshot.val();
+            if (data && !isUpdatingFromFirebase) {
+                console.log('Processing Firebase update...', data);
                 
-                console.log('Received real-time update from Firebase');
-                
-                // Update local data
-                counterData = data.counterData || counterData;
-                assignmentData = data.assignmentData || assignmentData;
-                
-                // Ensure backward compatibility
-                assignmentData.forEach(assignment => {
-                    if (assignment.excel === undefined) assignment.excel = false;
-                    if (assignment.portal === undefined) assignment.portal = false;
-                    if (assignment.nsis === undefined) assignment.nsis = false;
-                });
-                
-                // Re-render tables
-                renderCounterTable();
-                renderAssignmentTable();
-                
-                const modifiedBy = data.lastModifiedBy || 'Another user';
-                if (modifiedBy !== getUserId()) {
-                    showStatus(`🔄 Updated by ${modifiedBy}`, 'info');
+                // Only update if the data is newer than our last update
+                const serverTime = data.timestamp || 0;
+                if (serverTime > lastUpdateTime || lastUpdateTime === 0) {
+                    isUpdatingFromFirebase = true;
+                    
+                    console.log('Applying Firebase update to UI');
+                    
+                    // Update local data
+                    counterData = data.counterData || counterData;
+                    assignmentData = data.assignmentData || assignmentData;
+                    
+                    // Ensure backward compatibility
+                    assignmentData.forEach(assignment => {
+                        if (assignment.excel === undefined) assignment.excel = false;
+                        if (assignment.portal === undefined) assignment.portal = false;
+                        if (assignment.nsis === undefined) assignment.nsis = false;
+                    });
+                    
+                    // Re-render tables
+                    renderCounterTable();
+                    renderAssignmentTable();
+                    
+                    const modifiedBy = data.lastModifiedBy || 'Another user';
+                    if (modifiedBy !== getUserId()) {
+                        console.log('Update from:', modifiedBy);
+                        showStatus(`🔄 Updated by ${modifiedBy}`, 'info');
+                    } else {
+                        showStatus('✅ Your changes saved', 'success');
+                    }
+                    
+                    lastUpdateTime = serverTime;
+                    
+                    setTimeout(() => {
+                        isUpdatingFromFirebase = false;
+                    }, 1000);
                 }
-                
-                lastUpdateTime = serverTime;
-                
-                setTimeout(() => {
-                    isUpdatingFromFirebase = false;
-                }, 1000);
+            } else if (!snapshot.exists()) {
+                console.log('No data in Firebase, initializing...');
+                // Initialize with current data if database is empty
+                if (counterData.length > 0 || assignmentData.length > 0) {
+                    autoSave();
+                }
             }
-        }
-    }, (error) => {
-        console.error('Firebase listener error:', error);
-        showStatus('Real-time sync disconnected. Changes may not sync.', 'error');
-    });
+        }, (error) => {
+            console.error('Firebase listener error:', error);
+            showStatus('❌ Real-time sync error: ' + error.message, 'error');
+        });
+        
+        console.log('Firebase listener setup complete');
+    } catch (error) {
+        console.error('Error setting up Firebase listener:', error);
+        showStatus('❌ Failed to setup real-time sync: ' + error.message, 'error');
+    }
 }
 
 // Generate or get user ID
@@ -580,18 +637,76 @@ function showStatus(message, type) {
     }, 5000);
 }
 
+// Debug function to test Firebase connection (run in browser console)
+function testFirebaseConnection() {
+    console.log('=== Firebase Connection Test ===');
+    
+    if (typeof firebase === 'undefined') {
+        console.error('❌ Firebase SDK not loaded');
+        return false;
+    }
+    
+    if (!firebase.database) {
+        console.error('❌ Firebase Database not available');
+        return false;
+    }
+    
+    console.log('✅ Firebase SDK loaded');
+    console.log('✅ Firebase Database available');
+    
+    // Test database connection
+    const testRef = firebase.database().ref('test');
+    testRef.set({
+        message: 'Connection test',
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    }).then(() => {
+        console.log('✅ Write test successful');
+        return testRef.once('value');
+    }).then((snapshot) => {
+        console.log('✅ Read test successful:', snapshot.val());
+        testRef.remove(); // Clean up
+        console.log('🎉 Firebase connection is working!');
+    }).catch((error) => {
+        console.error('❌ Firebase test failed:', error);
+    });
+    
+    return true;
+}
+
+// Make test function globally available
+window.testFirebaseConnection = testFirebaseConnection;
+
 // Auto-load data when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Firebase listener first
+    console.log('DOM loaded, checking Firebase availability...');
+    
+    // Check if Firebase is available
     if (typeof firebase !== 'undefined' && firebase.database) {
+        console.log('Firebase is available, setting up real-time sync...');
+        
+        // Test Firebase connection
+        firebase.database().ref('.info/connected').on('value', function(snapshot) {
+            if (snapshot.val() === true) {
+                console.log('✅ Connected to Firebase');
+                showStatus('🔄 Connected to real-time sync', 'success');
+            } else {
+                console.log('❌ Disconnected from Firebase');
+                showStatus('⚠️ Disconnected from sync server', 'error');
+            }
+        });
+        
         setupRealTimeListener();
         showStatus('🔄 Connecting to real-time sync...', 'info');
         
         // Load initial data from Firebase
-        loadData();
+        setTimeout(() => {
+            loadData();
+        }, 1000);
     } else {
         // Fallback to localStorage if Firebase is not available
         console.warn('Firebase not available, using localStorage fallback');
+        showStatus('⚠️ Real-time sync unavailable - using local storage', 'error');
+        
         setTimeout(() => {
             const savedData = localStorage.getItem('markingDutyData');
             if (savedData) {
