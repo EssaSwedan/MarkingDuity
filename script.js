@@ -1,5 +1,5 @@
 // Data arrays for dropdowns
-const teachers = ['Essa', 'Amdad', 'Anas', 'Roy', 'Mohammd', 'Khaled'];
+const teachers = [' ','Essa', 'Amdad', 'Anas', 'Roy', 'Mohammd', 'Khaled'];
 const grades = ['9A', '9B', '9C', '9D', '10A', '10B', '10C', '10D', '11A', '11B', '11C_Eng', '11C_CS'];
 
 // Initial counter data
