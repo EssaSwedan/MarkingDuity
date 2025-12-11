@@ -1,6 +1,6 @@
 // Data arrays for dropdowns
 const teachers = ['Essa', 'Amdad', 'Anas', 'Roy', 'Mohammd', 'Khaled'];
-const grades = ['9A', '9B', '9C', '9D', '10A', '10B', '10C', '10D', '11A', '11B', '11C'];
+const grades = ['9A', '9B', '9C', '9D', '10A', '10B', '10C', '10D', '11A', '11B', '11C_Eng', '11C_CS'];
 
 // Initial counter data
 let counterData = [
@@ -24,7 +24,9 @@ let assignmentData = [
     { grade: '10D', mcqMarker: 'Essa', mcqReviewer: 'Mohammd', frqMarker: 'Amdad', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
     { grade: '11A', mcqMarker: 'Mohammd', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Roy', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
     { grade: '11B', mcqMarker: 'Mohammd', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '11C', mcqMarker: 'Amdad', mcqReviewer: 'Anas', frqMarker: 'Roy', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' }
+    { grade: '11C_Eng', mcqMarker: 'Amdad', mcqReviewer: 'Anas', frqMarker: 'Roy', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '11C_CS', mcqMarker: 'Amdad', mcqReviewer: 'Anas', frqMarker: 'Roy', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' }
+
 ];
 
 // Initialize the page
