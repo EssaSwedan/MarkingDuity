@@ -1,5 +1,5 @@
 // Data arrays for dropdowns
-const teachers = ['Essa', 'Amdad', 'Anas', 'Roy', 'Hamza', 'Khaled'];
+const teachers = ['Essa', 'Amdad', 'Anas', 'Roy', 'Mohammd', 'Khaled'];
 const grades = ['9A', '9B', '9C', '9D', '10A', '10B', '10C', '10D', '11A', '11B', '11C'];
 
 // Initial counter data
@@ -8,22 +8,22 @@ let counterData = [
     { name: 'Amdad', mcqMarker: 1, mcqReviewer: 2, frqMarker: 2, frqReviewer: 2 },
     { name: 'Anas', mcqMarker: 1, mcqReviewer: 2, frqMarker: 2, frqReviewer: 3 },
     { name: 'Roy', mcqMarker: 3, mcqReviewer: 2, frqMarker: 1, frqReviewer: 1 },
-    { name: 'Hamza', mcqMarker: 3, mcqReviewer: 1, frqMarker: 3, frqReviewer: 1 },
+    { name: 'Mohammd', mcqMarker: 3, mcqReviewer: 1, frqMarker: 3, frqReviewer: 1 },
     { name: 'Khaled', mcqMarker: 0, mcqReviewer: 1, frqMarker: 3, frqReviewer: 4 }
 ];
 
 // Initial assignment data
 let assignmentData = [
-    { grade: '9A', mcqMarker: 'Essa', mcqReviewer: 'Anas', frqMarker: 'Khaled', frqReviewer: 'Hamza', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '9B', mcqMarker: 'Essa', mcqReviewer: 'Roy', frqMarker: 'Hamza', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '9C', mcqMarker: 'Anas', mcqReviewer: 'Roy', frqMarker: 'Hamza', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '9D', mcqMarker: 'Roy', mcqReviewer: 'Essa', frqMarker: 'Hamza', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '9A', mcqMarker: 'Essa', mcqReviewer: 'Anas', frqMarker: 'Khaled', frqReviewer: 'Mohammd', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '9B', mcqMarker: 'Essa', mcqReviewer: 'Roy', frqMarker: 'Mohammd', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '9C', mcqMarker: 'Anas', mcqReviewer: 'Roy', frqMarker: 'Mohammd', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '9D', mcqMarker: 'Roy', mcqReviewer: 'Essa', frqMarker: 'Mohammd', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
     { grade: '10A', mcqMarker: 'Roy', mcqReviewer: 'Khaled', frqMarker: 'Anas', frqReviewer: 'Amdad', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
     { grade: '10B', mcqMarker: 'Roy', mcqReviewer: 'Essa', frqMarker: 'Anas', frqReviewer: 'Amdad', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
-    { grade: '10C', mcqMarker: 'Hamza', mcqReviewer: 'Roy', frqMarker: 'Amdad', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
-    { grade: '10D', mcqMarker: 'Essa', mcqReviewer: 'Hamza', frqMarker: 'Amdad', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
-    { grade: '11A', mcqMarker: 'Hamza', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Roy', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
-    { grade: '11B', mcqMarker: 'Hamza', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '10C', mcqMarker: 'Mohammd', mcqReviewer: 'Roy', frqMarker: 'Amdad', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
+    { grade: '10D', mcqMarker: 'Essa', mcqReviewer: 'Mohammd', frqMarker: 'Amdad', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Roy', finalCheck: 'Essa' },
+    { grade: '11A', mcqMarker: 'Mohammd', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Roy', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
+    { grade: '11B', mcqMarker: 'Mohammd', mcqReviewer: 'Amdad', frqMarker: 'Khaled', frqReviewer: 'Anas', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' },
     { grade: '11C', mcqMarker: 'Amdad', mcqReviewer: 'Anas', frqMarker: 'Roy', frqReviewer: 'Khaled', mcqMarkerDone: false, mcqReviewerDone: false, frqMarkerDone: false, frqReviewerDone: false, excel: false, portal: false, nsis: false, samplesCheck: 'Essa', finalCheck: 'Essa' }
 ];
 
